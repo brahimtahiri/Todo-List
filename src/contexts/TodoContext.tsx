@@ -6,6 +6,7 @@ interface TodoContextProps {
   addTodo: (todo: Todo) => void;
   updateTodo: (updatedTodo: Todo) => void;
   deleteTodo: (id: number) => void;
+  completeTodo: (id: number) => void;
   updatingTodo: Todo | null;
   setUpdatingTodo: (todo: Todo | null) => void;
 }
@@ -38,6 +39,14 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
     setTodos([...todos].filter((todo: Todo) => todo.id !== id));
   };
 
+  const completeTodo = (id: number): void => {
+    setTodos(
+      todos.map((todo: Todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
   return (
     <TodoContext.Provider
       value={{
@@ -45,6 +54,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
         addTodo,
         updateTodo,
         deleteTodo,
+        completeTodo,
         updatingTodo,
         setUpdatingTodo,
       }}
